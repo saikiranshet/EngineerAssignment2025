@@ -2,16 +2,21 @@
   "name": "automation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "test:registration": "npx cypress run --spec cypress/integrations/e2e/registration.js",
+  "test:search": "npx cypress run --spec cypress/integrations/e2e/search.js",
+  "test:order": "npx cypress run --spec cypress/integrations/e2e/order.js",
+  "test:wishlist": "npx cypress run --spec cypress/integrations/e2e/wishlist.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "allure-commandline": "^2.32.2",
     "cypress": "^14.0.3",
     "cypress-xpath": "^2.0.1",
+    "mocha-allure-reporter": "^1.4.0",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^5.0.0",
     "mochawesome-report-generator": "^6.2.0"

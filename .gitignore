@@ -20,6 +20,7 @@ build/
 # Ignore temporary files
 *.tmp
 *.swp
+*.json
 
 
 # Ignore Cypress screenshots and videos
