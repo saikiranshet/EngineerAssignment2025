@@ -13,7 +13,7 @@ describe('Magento Search Test', () => {
     it('Should search for a product and validate results', () => {
         cy.xpath('/html/body/div[2]/header/div[2]/a/img').click();
         cy.fixture('testData').then((data) => {
-            searchPage.searchFrProduct(data.searchTerm);
+            searchPage.searchForProduct(data.searchTerm);
             searchPage.validateSearchResults(data.searchTerm);
             const expectedProducts = ['Push It Messenger Bag', 'Voyage Yoga Bag', 'Wayfarer Messenger Bag', 'Joust Duffle Bag']; // Modify as needed
             cy.get('.product-item-link').then(($items) => {

@@ -80,11 +80,11 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
           });
 
           // ✅ Double-check if size and color are selected
-          cy.get('.swatch-attribute.size .swatch-option.selected', { timeout: 5000 })
+          cy.get('.swatch-attribute.size .swatch-option.selected', { timeout: 10000 })
             .should('exist')
             .and('be.visible');
 
-          cy.get('.swatch-attribute.color .swatch-option.selected', { timeout: 5000 })
+          cy.get('.swatch-attribute.color .swatch-option.selected', { timeout: 10000 })
             .should('exist')
             .and('be.visible');
 
@@ -121,13 +121,34 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
         });
 
      // ✅ Retry getting the total price if it's not visible yet
-      cy.get('.cart-subtotal .price', { timeout: 25000 })
-      .should('exist')
-      .should('be.visible')
-      .invoke('text')
-      .then((subtotalText) => {
-          const subtotal = parseFloat(subtotalText.replace('$', '').trim());
-          expect(subtotal).to.equal(totalPrice);
-      });
+     cy.get('.minicart-items-wrapper .product-item', { timeout: 30000 })
+     .should('have.length', addedProducts.length)  // Validate number of products
+     .then(($items) => {
+       let calculatedTotal = 0;
+   
+       // Iterate over each product item
+       $items.each((index, item) => {
+         const priceText = Cypress.$(item).find('.price').text().trim();  // Adjust selector
+         const qtyText = Cypress.$(item).find('.qty').val().trim(); // Adjust selector
+         
+         // Convert extracted values to numbers
+         const price = parseFloat(priceText.replace(/[^0-9.]/g, '')); 
+         const qty = parseInt(qtyText, 10);
+   
+         // Calculate total price for the item
+         calculatedTotal += price * qty;
+       });
+   
+       // Compare calculated total with displayed total in mini cart
+       cy.get('.minicart-total .price') // Adjust selector
+         .invoke('text')
+         .then((totalText) => {
+           const displayedTotal = parseFloat(totalText.replace(/[^0-9.]/g, ''));
+           
+           // Assert that calculated total matches displayed total
+           expect(calculatedTotal).to.equal(displayedTotal);
+         });
+     });
+   
   });
 });

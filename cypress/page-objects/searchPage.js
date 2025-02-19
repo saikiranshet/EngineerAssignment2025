@@ -15,7 +15,7 @@ class SearchPage {
 
     validateSearchResults(productName) {
         this.elements.searchResults().should('have.length.greaterThan', 0);
-        // this.elements.searchResults().first().should('contain.text', productName);
+        this.elements.searchResults().first().should('contain.text', productName);
     }
 
     validateNoResultsMessage() {
