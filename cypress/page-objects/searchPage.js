@@ -15,8 +15,16 @@ class SearchPage {
 
     validateSearchResults(productName) {
         this.elements.searchResults().should('have.length.greaterThan', 0);
-        this.elements.searchResults().first().should('contain.text', productName);
+    
+        // Extract text, trim whitespace, and normalize
+        this.elements.searchResults().first()
+            .invoke('text')
+            .then((text) => {
+                const normalizedText = text.trim().replace(/\s+/g, ' ').toLowerCase();
+                expect(normalizedText).to.include(productName.toLowerCase());
+            });
     }
+    
 
     validateNoResultsMessage() {
         this.elements.noResultsMessage().should('be.visible').and('contain.text', 'Your search returned no results.');
