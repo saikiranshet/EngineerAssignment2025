@@ -22,8 +22,10 @@ specPattern: [
 
 # Alternatively, run tests sequentially using npm scripts:
 
-npm run test:registration && npm run test:search && npm run test:order && npm run test:wishlist
-
+npm run test:registration 
+npm run test:search
+npm run test:order
+npm run test:wishlist
 
 
 ## Descriiption
