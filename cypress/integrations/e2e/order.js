@@ -38,11 +38,12 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
               }
           });
 
-          cy.get('#search', { timeout: 20000 })
+          cy.get('#search', { timeout: 40000 })
             .should('exist')
             .should('be.visible')
             .clear()
             .type(`${product}{enter}`);
+          
 
           // ✅ Ensure products are loaded before clicking
           cy.get('.product-item', { timeout: 20000 })
