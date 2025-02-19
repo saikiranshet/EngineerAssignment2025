@@ -1,6 +1,7 @@
 class LoginPage {
     visit() {
-        cy.visit('https://magento.softwaretestingboard.com/customer/account/login/');
+        // cy.visit('https://magento.softwaretestingboard.com/customer/account/login/');
+        cy.visit('/customer/account/login/'); // Use environment variable'
     }
 
     enterEmail(email) {

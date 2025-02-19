@@ -23,8 +23,8 @@ module.exports = defineConfig({
       json: true
     },
     setupNodeEvents(on, config) {
-      // Implement node event listeners here
+      return config
     },
-    specPattern: 'cypress/integrations/e2e/*',  // Test file pattern
+    specPattern: "cypress/integrations/e2e/**/*.js"  
   },
 });

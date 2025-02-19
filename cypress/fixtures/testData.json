@@ -2,5 +2,11 @@
     "firstName": "John",
     "lastName": "Doe",
     "email": "testuser12345@test.com",
-    "password": "Test@1234"
+    "password": "Test@1234",
+    "searchTerm": "bag",
+    "productName": "Driven Backpack",
+    "shippingAddress": "123 Test Street, Test City, USA",
+    "paymentMethod": "Visa"
 }
+      
+  

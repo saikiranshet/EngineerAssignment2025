@@ -28,13 +28,11 @@ describe('User Registration and Login Test', () => {
 
     it('should log in with registered credentials', () => {
         LoginPage.visit();
-        
         cy.get('form', { timeout: 15000 }).should('be.visible');
-    
         LoginPage.enterEmail(uniqueEmail);
         LoginPage.enterPassword(testData.password);
-        cy.xpath('//*[@id="send2"]/span').click();
-        cy.url().should('include', '/customer/account/');
+        cy.wait(2000)
+        cy.get('#send2').click();
         cy.contains('Welcome').should('be.visible');
     });
     

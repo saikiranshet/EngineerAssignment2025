@@ -1,23 +1,15 @@
 class CartPage {
-    visit() {
-      cy.visit('https://magento.softwaretestingboard.com/checkout/cart/');
-    }
-  
-    verifyCartItemCount(expectedCount) {
-      cy.get('.cart-item').should('have.length', expectedCount);
-    }
-  
-    verifyCartTotal(expectedTotal) {
-      cy.get('.cart-totals').within(() => {
-        cy.get('.price').first().invoke('text').should('contain', expectedTotal); // Check total price
-      });
-    }
-  
-    applyCoupon(code) {
-      cy.get('#coupon_code').type(code); // Enter coupon code if applicable
-      cy.get('button[title="Apply Discount"]').click(); // Apply discount
-    }
+  visit() {
+      cy.visit("/checkout/cart/");
   }
-  
-  export default new CartPage();
-  
+
+  proceedToCheckout() {
+    cy.wait(2000); // Waits for 5000 milliseconds (5 seconds)
+    cy.xpath('/html/body/div[2]/header/div[2]/div[1]/a').click();
+    cy.wait(3000); // Waits for 5000 milliseconds (5 seconds)
+    cy.xpath('//*[@id="top-cart-btn-checkout"]').click();
+    cy.wait(3000); // Waits for 5000 milliseconds (5 seconds)
+  }
+}
+
+export default new CartPage();
