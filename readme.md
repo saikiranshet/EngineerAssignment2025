@@ -46,14 +46,13 @@ Test Case (D): Search and validate results - You can find the code iin search.js
 
 Allure Reporting
 
+🛠 Install Allure Reporter
 
+npm install --save-dev @shelex/cypress-allure-plugin
 
-# Execution
-Stpe1 - npx cypress open
-
-
-
-
+Run Cypress Tests - npx cypress run
+Generate Allure Report - allure generate allure-results --clean -o allure-report
+Open the Report - allure open allure-report
 
 # OtherTasks Folder
 
