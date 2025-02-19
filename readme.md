@@ -66,3 +66,7 @@ The `OtherTasks` folder contains various types of test cases and performance-rel
 - **Performance**: This section includes tasks and test cases related to performance testing.
 
 
+
+You can also find the recordings in screenrecords folder
+
+
