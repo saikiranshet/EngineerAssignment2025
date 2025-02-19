@@ -26,7 +26,7 @@ build/
 *.html
 *.txt
 *index.js
-
+*.css
 # Ignore Cypress screenshots and videos
 cypress/screenshots/
 cypress/videos/
