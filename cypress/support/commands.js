@@ -1,5 +1,6 @@
 
 import 'cypress-xpath';
+import '@shelex/cypress-allure-plugin';
 
 Cypress.Commands.add('login', (email, password) => {
     cy.visit('/customer/account/login');

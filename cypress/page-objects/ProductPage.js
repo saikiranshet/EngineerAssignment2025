@@ -20,11 +20,12 @@ class ProductPage {
   };
 
   searchForProduct(productName) {
+      cy.wait(2000)
       cy.get('#search')
       this.elements.searchInput().clear().type(productName);
       this.elements.searchButton().click();
       cy.visit('https://magento.softwaretestingboard.com/catalogsearch/result/?q=+Driven+Backpack');
-      cy.wait(2000); // Waits for 5000 milliseconds (5 seconds)
+      cy.wait(2000); 
       cy.xpath('//*[@id="maincontent"]/div[3]/div[1]/div[2]/div[2]/ol/li[1]/div/a/span/span/img').click();
   }
 

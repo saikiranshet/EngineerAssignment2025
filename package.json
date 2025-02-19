@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress run",
+    "start": "node server.js",
     "test:registration": "npx cypress run --spec cypress/integrations/e2e/registration.js",
     "test:order": "npx cypress run --spec cypress/integrations/e2e/order.js",
     "test:all": "npx cypress run",
@@ -15,8 +16,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
     "cypress": "^14.0.3",
     "cypress-xpath": "^2.0.1",
     "mochawesome": "^7.1.3",

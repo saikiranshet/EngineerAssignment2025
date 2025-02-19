@@ -25,6 +25,7 @@ build/
 *.woff2
 *.html
 *.txt
+*index.js
 
 # Ignore Cypress screenshots and videos
 cypress/screenshots/
