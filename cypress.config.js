@@ -30,7 +30,7 @@ module.exports = defineConfig({
       "cypress/integrations/e2e/registration.js",
       "cypress/integrations/e2e/search.js",
       "cypress/integrations/e2e/order.js",
-      "cypress/integrations/e2e/whitelist.js"
+      "cypress/integrations/e2e/wishlist.js"
     ]
   },
 });
