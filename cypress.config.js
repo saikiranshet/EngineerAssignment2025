@@ -3,6 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   e2e: {
     baseUrl: "https://magento.softwaretestingboard.com",  // Set base URL for easy navigation
+    reporter: "mocha-allure-reporter",
     viewportWidth: 1366,  // Define default screen size
     viewportHeight: 768,
     defaultCommandTimeout: 10000,  // Timeout for waiting commands (10 sec)
@@ -25,6 +26,11 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       return config
     },
-    specPattern: "cypress/integrations/e2e/**/*.js"  
+    specPattern: [
+      "cypress/integrations/e2e/registration.js",
+      "cypress/integrations/e2e/search.js",
+      "cypress/integrations/e2e/order.js",
+      "cypress/integrations/e2e/whitelist.js"
+    ]
   },
 });
