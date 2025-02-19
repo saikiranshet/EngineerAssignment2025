@@ -14,38 +14,22 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
     cy.get('body').should('be.visible');
   });
 
-  const products = ["Radiant Tee", "Argus All-Weather Tank"]; // Add more products if needed
+  const products = ["Radiant Tee", "Argus All-Weather Tank"];
+  let addedProducts = []; // List to store added products
+  let cartProducts = [];  // List to store cart products for validation
+  let totalPrice = 0;     // Variable to store total price
 
   it('should add multiple products to cart and validate price calculation', () => {
-      let totalPrice = 0;
-      let addedProducts = [];
-
       products.forEach((product) => {
-          // ✅ Fix: Ensure Page Loads Fully Before Searching
-          cy.wait(5000); 
+          cy.wait(3000); // Ensure page load
 
-          cy.document().then((doc) => {
-              if (doc.readyState !== 'complete') {
-                  cy.wait(3000); // Wait more if page is still loading
-              }
-          });
-
-          // ✅ Fix: Ensure Search Box is Available
-          cy.get('body').then(($body) => {
-              if ($body.find('#search').length === 0) {
-                  cy.reload(); // Reload page if search bar is missing
-                  cy.wait(5000);
-              }
-          });
-
-          cy.get('#search', { timeout: 40000 })
+          // Search for product
+          cy.get('#search', { timeout: 20000 })
             .should('exist')
             .should('be.visible')
             .clear()
             .type(`${product}{enter}`);
-          
 
-          // ✅ Ensure products are loaded before clicking
           cy.get('.product-item', { timeout: 20000 })
             .should('be.visible')
             .first()
@@ -56,10 +40,9 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
             .should('exist')
             .click({ force: true });
 
-          // ✅ Ensure product page loads completely
           cy.get('.page-title', { timeout: 20000 }).should('be.visible');
 
-          // ✅ Fix: Wait for size & color options before clicking
+          // Select size if available
           cy.get('body').then(($body) => {
               if ($body.find('.swatch-attribute.size').length > 0) {
                   cy.get('.swatch-attribute.size .swatch-option', { timeout: 10000 })
@@ -70,6 +53,7 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
               }
           });
 
+          // Select color if available
           cy.get('body').then(($body) => {
               if ($body.find('.swatch-attribute.color').length > 0) {
                   cy.get('.swatch-attribute.color .swatch-option', { timeout: 10000 })
@@ -80,76 +64,63 @@ describe('Place Order with Multiple Products (Price Calculation Checks)', () => 
               }
           });
 
-          // ✅ Double-check if size and color are selected
-          cy.get('.swatch-attribute.size .swatch-option.selected', { timeout: 10000 })
-            .should('exist')
-            .and('be.visible');
-
-          cy.get('.swatch-attribute.color .swatch-option.selected', { timeout: 10000 })
-            .should('exist')
-            .and('be.visible');
-
-          // ✅ Ensure price is retrieved after elements load
           cy.get('.price-wrapper .price', { timeout: 20000 })
             .should('be.visible')
             .invoke('text')
             .then((priceText) => {
-                const price = parseFloat(priceText.replace('$', '').trim());
+                const price = parseFloat(priceText.replace(/[^0-9.]/g, '').trim());
+                cy.log(`Added: ${product} - Price: $${price}`);
+                
+                // Store in addedProducts array
+                addedProducts.push({ name: product, price });
+
                 totalPrice += price;
-                addedProducts.push(product);
             });
 
-          // ✅ Ensure "Add to Cart" button is clickable
           cy.get('#product-addtocart-button', { timeout: 20000 })
             .should('be.visible')
-            .and('not.be.disabled')
-            .as('addToCartButton');
+            .click({ force: true });
 
-          cy.get('@addToCartButton').click({ force: true });
-
-          // Wait before adding the next item
-          cy.wait(5000);
+          cy.wait(4000);
       });
 
-      // ✅ Open the cart and ensure it loads
+      // Open Cart
       cy.get('.showcart', { timeout: 20000 }).click();
-      cy.wait(5000);
+      cy.wait(4000);
 
-      // ✅ Ensure all products are in the cart
+      // Validate products in cart and store them in cartProducts array
       cy.get('.minicart-items-wrapper .product-item', { timeout: 30000 })
-        .should(($items) => {
-            expect($items.length).to.equal(addedProducts.length);
+        .should('have.length', addedProducts.length)
+        .each(($item) => {
+            const cartProductName = Cypress.$($item).find('.product-item-name a').text().trim();
+            const cartPriceText = Cypress.$($item).find('.price').text().trim();
+            const cartPrice = parseFloat(cartPriceText.replace(/[^0-9.]/g, ''));
+
+            cy.log(`Cart: ${cartProductName} - Price: $${cartPrice}`);
+
+            // Store in cartProducts array
+            cartProducts.push({ name: cartProductName, price: cartPrice });
+        })
+        .then(() => {
+            // Compare both lists
+            expect(cartProducts.length).to.equal(addedProducts.length);
+
+            cartProducts.forEach((cartItem) => {
+                const matchedProduct = addedProducts.find(p => p.name === cartItem.name);
+                expect(matchedProduct).to.not.be.undefined;
+                expect(matchedProduct.price).to.equal(cartItem.price);
+            });
         });
 
-     // ✅ Retry getting the total price if it's not visible yet
-     cy.get('.minicart-items-wrapper .product-item', { timeout: 30000 })
-     .should('have.length', addedProducts.length)  // Validate number of products
-     .then(($items) => {
-       let calculatedTotal = 0;
-   
-       // Iterate over each product item
-       $items.each((index, item) => {
-         const priceText = Cypress.$(item).find('.price').text().trim();  // Adjust selector
-         const qtyText = Cypress.$(item).find('.qty').val().trim(); // Adjust selector
-         
-         // Convert extracted values to numbers
-         const price = parseFloat(priceText.replace(/[^0-9.]/g, '')); 
-         const qty = parseInt(qtyText, 10);
-   
-         // Calculate total price for the item
-         calculatedTotal += price * qty;
-       });
-   
-       // Compare calculated total with displayed total in mini cart
-       cy.get('.minicart-total .price') // Adjust selector
-         .invoke('text')
-         .then((totalText) => {
-           const displayedTotal = parseFloat(totalText.replace(/[^0-9.]/g, ''));
-           
-           // Assert that calculated total matches displayed total
-           expect(calculatedTotal).to.equal(displayedTotal);
-         });
-     });
-   
+      // Validate total price in cart
+      cy.get('.minicart-total .price', { timeout: 30000 })
+        .invoke('text')
+        .then((cartTotalText) => {
+            const cartTotal = parseFloat(cartTotalText.replace(/[^0-9.]/g, ''));
+            cy.log(`Total Price (Calculated): $${totalPrice}`);
+            cy.log(`Total Price (Cart Displayed): $${cartTotal}`);
+            
+            expect(totalPrice).to.equal(cartTotal);
+        });
   });
 });

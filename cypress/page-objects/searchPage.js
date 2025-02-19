@@ -1,11 +1,11 @@
 class SearchPage {
     elements = {
-        searchInput: () => cy.get('#search'),  // Search bar
-        searchButton: () => cy.get('.action.search'),  // Search icon
-        searchResults: () => cy.get('.products-grid .product-item'),  // Search results
-        noResultsMessage: () => cy.get('.message.notice'), // No results message
-        firstProduct: () => cy.get('.products-grid .product-item').first(), // First product
-        productTitle: () => cy.get('.page-title span') // Product title in product page
+        searchInput: () => cy.get('#search'),  
+        searchButton: () => cy.get('.action.search'), 
+        searchResults: () => cy.get('.products-grid .product-item'),  
+        noResultsMessage: () => cy.get('.message.notice'), 
+        firstProduct: () => cy.get('.products-grid .product-item').first(), 
+        productTitle: () => cy.get('.page-title span') 
     };
 
     searchForProduct(productName) {

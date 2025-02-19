@@ -21,12 +21,10 @@ describe("Wishlist Checkout Test", () => {
 
     it("Add product to wishlist and checkout", () => {
 
-        // Step 2: Search for product and add to wishlist
         ProductPage.searchForProduct(testData.productName);
         WishlistPage.moveToCart();
         CartPage.proceedToCheckout();
 
-        // Step 5: Fill details and place order
         CheckoutPage.fillShippingDetails();
         CheckoutPage.placeOrder();
     });
