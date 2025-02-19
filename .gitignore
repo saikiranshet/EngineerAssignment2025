@@ -21,7 +21,10 @@ build/
 *.tmp
 *.swp
 *.json
-
+*.woff
+*.woff2
+*.html
+*.txt
 
 # Ignore Cypress screenshots and videos
 cypress/screenshots/
