@@ -14,10 +14,10 @@ This repository contains Cypress test automation for an e-commerce platform, inc
 To execute tests in a specific order, update cypress.config.js:
 
 specPattern: [
-  "cypress/e2e/registartion.cy.js",
-  "cypress/e2e/search.cy.js",
-  "cypress/e2e/order.cy.js",
-  "cypress/e2e/wishlist.cy.js"
+  "cypress/e2e/registartion.js",
+  "cypress/e2e/search.js",
+  "cypress/e2e/order.js",
+  "cypress/e2e/wishlist.js"
 ]
 
 # Alternatively, run tests sequentially using npm scripts:
