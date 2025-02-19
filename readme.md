@@ -40,22 +40,50 @@ Test Case (D): Search and validate results - You can find the code iin search.js
 
 [Folder Structure for above Testcase is cypress/integrations/e2e/~ {All Code are here}]
 
-# Installing
+# Installing and Execution
+
+📌 Step 1: Delete Old Dependencies (If Needed)
+If you're facing issues, it's best to clean your setup first:
+
+rm -rf node_modules package-lock.json
+📌 Step 2: Install All Dependencies
+npm install
+
+This will install everything listed in your package.json file, including:
+
+📌 Step 3: Verify Cypress Installation
+npx cypress -v
+If it works, proceed to the next step.
+
+If you see a "Permission denied" error, run:
+chmod +x node_modules/.bin/cypress
+
+npx cypress install
 
 
+📌 Step 4: Open Cypress
+To open Cypress in GUI mode:
+
+npx cypress open
+To run Cypress in headless mode:
+npx cypress run
+
+📌 Step 5: Run Specific Tests
+Run registration tests: npm run test:registration
+Run order tests: npm run test:order
 
 # Reporting Used
 
 Allure Reporting
 
-🛠 Install Allure Reporter
+🛠 Install and Run with Allure Reporter
 
-npm install --save-dev @shelex/cypress-allure-plugin
+cmd - npm install --save-dev @shelex/cypress-allure-plugin
 
-iwr -useb get.scoop.sh | iex - If windows
-Run Cypress Tests - npx cypress run
-Generate Allure Report - allure generate allure-results --clean -o allure-report
-Open the Report - allure open allure-report
+from automation - Run this below command [ This is still not working Need to debug]
+cmd - npx cypress run --env allure=true
+cmd - npx allure generate allure-results --clean -o allure-report
+cmd - npx allure open allure-report
 
 # OtherTasks Folder
 
@@ -67,6 +95,21 @@ The `OtherTasks` folder contains various types of test cases and performance-rel
 
 
 
-You can also find the recordings in screenrecords folder
+You can also find the recordings in screenrecords folder 
 
 
+🚀 # Project Status & Enhancements Needed
+|
+✅ # Current Status:
+The framework is functional, but some areas require further enhancements.
+Order-related tests are still failing and need investigation.
+Allure report not working - Need investigation
+
+
+🔧 Enhancements Needed:
+Improve test stability and handle intermittent failures.
+Optimize selectors and improve test data management.
+Enhance reporting (Allure & Mochawesome) for better insights.
+Review Cypress best practices for improved maintainability.
+
+On the right track, but things take time! A bit more polishing, and we’ll have a rock-solid automation framework for sure.
