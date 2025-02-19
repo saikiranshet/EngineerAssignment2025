@@ -52,6 +52,7 @@ Allure Reporting
 
 npm install --save-dev @shelex/cypress-allure-plugin
 
+iwr -useb get.scoop.sh | iex - If windows
 Run Cypress Tests - npx cypress run
 Generate Allure Report - allure generate allure-results --clean -o allure-report
 Open the Report - allure open allure-report
